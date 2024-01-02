@@ -32,10 +32,6 @@ class CompanyLinkedList:
             # Şirket listesini dosyaya yaz
             self.save_to_file('companynames.txt')
 
-            # Şirketin ayrıntılı bilgilerini içeren dosyayı oluştur
-            #root_of_own_company = RootOfOwnCompany(company_name)
-            #root_of_own_company.save_to_file(f'{company_name}.txt')
-
             # Şirketi sete ekle
             self.existing_companies.add(company_name)
         else:
@@ -211,117 +207,6 @@ def load_company_information(filename):
         print(f"Hata: {e}")
         return None
 
-def save_company_information(self, company_name, address, phone_number, mail_address):
-    current_company = self.company_linked_list.get_company_by_name(company_name)
-    
-    # Şirket ile ilgili diğer bilgileri de güncelleyebilirsiniz.
-    current_company.own_tree_root.contact_informations.address = address
-    current_company.own_tree_root.contact_informations.phone_number = phone_number
-    current_company.own_tree_root.contact_informations.mail_address = mail_address
-
-    # Diğer bilgileri de güncelleyin.
-
-    # Şirket bilgileri güncellendikten sonra dosyaya kaydedebilirsiniz.
-    current_company.own_tree_root.save_to_file(f"{company_name}.txt")
-    
-    # Ayrıca, şirket listesini genel bir dosyaya kaydedebilirsiniz.
-    self.company_linked_list.save_to_file('companynames.txt')
-
-    messagebox.showinfo("Başarılı", f"{company_name} adlı şirket bilgileri güncellendi.")
-
-def get_company_information_from_user(self):
-    new_company_window = tk.Toplevel(self)
-    new_company_window.title("YENİ ŞİRKET OLUŞTUR")
-    tk.Label(new_company_window, text="YENİ ŞİRKET OLUŞTUR", font=("Arciform", 16)).pack(pady=20)
-
-    company_info = {}  # Şirket bilgilerini saklamak için bir sözlük oluşturuyoruz
-
-    # Şirket adı dışındaki her bir bilgi için bir giriş alanı ve label ekleyin
-    fields = ["Adres", "Telefon Numarası", "E-posta Adresi"]  # Ek bilgileri istediğiniz gibi buraya ekleyin
-
-    for field in fields:
-        tk.Label(new_company_window, text=f"{field}:").pack()
-        entry = tk.Entry(new_company_window)
-        entry.pack(pady=5)
-        company_info[field.lower()] = entry  # Bilgileri saklamak için sözlüğe ekliyoruz
-
-    # Devam Et butonuna basıldığında şirket bilgilerini alacak fonksiyonu çağırın
-    tk.Button(new_company_window, text="Devam Et", command=lambda: self.continue_with_company_information(new_company_window, company_info)).pack(pady=10)
-
-def continue_with_company_information(self, new_company_window, company_info):
-    # Şirket adını alın
-    company_name = company_info['name'].get()
-
-    # Şirket adı alındıktan sonra bu pencereyi kapat
-    new_company_window.destroy()
-
-    # Şirket bilgilerini saklamak için bir sözlük oluşturuyoruz
-    contact_info = ContactInformation()
-    customer_info = CustomerInformation()
-    employee_info = EmployeeInformation()
-    financial_info = FinancialInformation()
-
-    # Sözlükteki her bir giriş alanından bilgileri çekiyoruz
-    contact_info.address = company_info['address'].get()
-    contact_info.phone_number = company_info['phone'].get()
-    contact_info.mail_address = company_info['email'].get()
-
-    # Diğer bilgileri de alabilirsiniz
-
-    # RootOfOwnCompany sınıfını kullanarak bilgileri kaydedin.
-    root_of_own_company = RootOfOwnCompany(company_name)
-    root_of_own_company.contact_informations = contact_info
-    root_of_own_company.customer_informations = customer_info
-    root_of_own_company.employee_informations = employee_info
-    root_of_own_company.financial_informations = financial_info
-
-    root_of_own_company.save_to_file(f'{company_name}.txt')
-
-    messagebox.showinfo("Başarılı", f"{company_name} adlı şirket bilgileri kaydedildi.")
-    
-
-def get_customer_information_from_user(self):
-    customer_info = CustomerInformation()
-
-    # Kullanıcıdan müşteri bilgilerini alın.
-    customer_info.customer_name = input("Müşteri Adı: ")
-    customer_info.customer_surname = input("Müşteri Soyadı: ")
-    customer_info.customer_phone_number = input("Müşteri Telefon Numarası: ")
-    customer_info.customer_address = input("Müşteri Adresi: ")
-
-    return customer_info
-
-def get_employee_information_from_user(self):
-    employee_info = EmployeeInformation()
-
-    # Kullanıcıdan çalışan bilgilerini alın.
-    employee_info.employee_name = input("Çalışan Adı: ")
-    employee_info.employee_surname = input("Çalışan Soyadı: ")
-
-    # Çalışan maaşını sayısal bir değer olarak alın.
-    try:
-        employee_info.employee_salary = float(input("Çalışan Maaşı: "))
-    except ValueError:
-        messagebox.showwarning("Hata", "Lütfen geçerli bir sayısal değer girin.")
-        return None
-
-    return employee_info
-
-def get_financial_information_from_user(self):
-    financial_info = FinancialInformation()
-
-    # Kullanıcıdan finansal bilgileri alın.
-    try:
-        financial_info.income = float(input("Gelir: "))
-        financial_info.payment = float(input("Ödeme: "))
-        financial_info.sales = float(input("Satış: "))
-    except ValueError:
-        messagebox.showwarning("Hata", "Lütfen geçerli sayısal değerler girin.")
-        return None
-
-    return financial_info
-
-
 class CompanyInformation:
     def __init__(self, company_name, contact_info=None, customer_info=None, employee_info=None, financial_info=None):
         self.company_name = company_name
@@ -383,7 +268,7 @@ class CompanyManagement(tk.Tk):
     def get_contact_information_from_user(self):
         contact_info = ContactInformation()
 
-        # Kullanıcıdan iletişim bilgilerini alın.
+        # Kullanıcıdan iletişim bilgilerini al
         contact_info.address = input("Adres: ")
         contact_info.phone_number = input("Telefon Numarası: ")
         contact_info.mail_address = input("E-posta Adresi: ")
@@ -393,7 +278,7 @@ class CompanyManagement(tk.Tk):
     def get_customer_information_from_user(self):
         customer_info = CustomerInformation()
 
-        # Kullanıcıdan müşteri bilgilerini alın.
+        # Kullanıcıdan müşteri bilgilerini al
         customer_info.customer_name = input("Müşteri Adı: ")
         customer_info.customer_surname = input("Müşteri Soyadı: ")
         customer_info.customer_phone_number = input("Müşteri Telefon Numarası: ")
@@ -404,11 +289,11 @@ class CompanyManagement(tk.Tk):
     def get_employee_information_from_user(self):
         employee_info = EmployeeInformation()
 
-        # Kullanıcıdan çalışan bilgilerini alın.
+        # Kullanıcıdan çalışan bilgilerini al
         employee_info.employee_name = input("Çalışan Adı: ")
         employee_info.employee_surname = input("Çalışan Soyadı: ")
 
-        # Çalışan maaşını sayısal bir değer olarak alın.
+        # Çalışan maaşını sayısal bir değer olarak al
         try:
             employee_info.employee_salary = float(input("Çalışan Maaşı: "))
         except ValueError:
@@ -420,7 +305,7 @@ class CompanyManagement(tk.Tk):
     def get_financial_information_from_user(self):
         financial_info = FinancialInformation()
 
-        # Kullanıcıdan finansal bilgileri alın.
+        # Kullanıcıdan finansal bilgileri al
         try:
             financial_info.income = float(input("Gelir: "))
             financial_info.payment = float(input("Ödeme: "))
